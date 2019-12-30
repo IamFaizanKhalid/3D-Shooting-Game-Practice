@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
 
     public float points;
 
+    public float health;
+
     // Methods
 
     void Update()
@@ -36,6 +38,10 @@ public class Player : MonoBehaviour
             playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, targetRotation, 7f * Time.deltaTime);
         }
 
+        // Shooting
+        if (Input.GetMouseButtonDown(0))
+            Shoot();
+
 
         // Player movement
         if (Input.GetKey(KeyCode.W))
@@ -46,18 +52,27 @@ public class Player : MonoBehaviour
             transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
         if (Input.GetKey(KeyCode.D))
             transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
-
-
-        // Shooting
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKey(KeyCode.Space))
         {
-            Shoot();
+            Rigidbody myPlayer = this.GetComponent<Rigidbody>();
+            if (myPlayer.transform.position.y<0.2f)
+                myPlayer.AddForce(0, 1, 0, ForceMode.Impulse);
         }
+
+
+        if (health <= 0)
+            Die();
     }
 
     private void Shoot()
     {
         bulletSpwaned = Instantiate(bullet.transform, bulletSpwanPoint.transform.position, Quaternion.identity);
         bulletSpwaned.rotation = bulletSpwanPoint.transform.rotation;
+    }
+
+
+    public void Die()
+    {
+        Destroy(this.gameObject);
     }
 }

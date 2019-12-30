@@ -11,6 +11,13 @@ public class Enemy : MonoBehaviour
     public GameObject player;
     public float pointsToGive;
 
+    public float waitTime;
+    private float currentWait;
+    private bool shot;
+
+    public GameObject bullet;
+    public GameObject bulletSpwanPoint;
+    private Transform bulletSpwaned;
 
     // Methods
     public void Start()
@@ -21,9 +28,24 @@ public class Enemy : MonoBehaviour
     public void Update()
     {
         if (health<=0)
-        {
             Die();
-        }
+
+        this.transform.LookAt(player.transform);
+
+        if (currentWait==0)
+            Shoot();
+        if (shot && currentWait < waitTime)
+            currentWait += 1 * Time.deltaTime;
+
+        if (currentWait >= waitTime)
+            currentWait = 0;
+    }
+
+    private void Shoot()
+    {
+        shot = true;
+        bulletSpwaned = Instantiate(bullet.transform, bulletSpwanPoint.transform.position, Quaternion.identity);
+        bulletSpwaned.rotation = this.transform.rotation;
     }
 
     public void Die()
