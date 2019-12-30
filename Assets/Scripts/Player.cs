@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     public GameObject bulletSpwanPoint;
     public float waitTime;
 
+    private Transform bulletSpwaned;
+
+    public float points;
+
     // Methods
 
     void Update()
@@ -53,6 +57,7 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
-        Instantiate(bullet.transform, bulletSpwanPoint.transform.position, Quaternion.identity);
+        bulletSpwaned = Instantiate(bullet.transform, bulletSpwanPoint.transform.position, Quaternion.identity);
+        bulletSpwaned.rotation = bulletSpwanPoint.transform.rotation;
     }
 }
