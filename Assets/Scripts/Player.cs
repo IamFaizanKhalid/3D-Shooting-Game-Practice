@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,13 +12,16 @@ public class Player : MonoBehaviour
 
     public GameObject bullet;
     public GameObject bulletSpwanPoint;
-    public float waitTime;
+    //public float waitTime;
+    //private float currentWait = 0;
 
     private Transform bulletSpwaned;
 
     public float points;
+    public Text pointsText;
 
     public float health;
+    public Text healthText;
 
     // Methods
 
@@ -41,7 +45,16 @@ public class Player : MonoBehaviour
         // Shooting
         if (Input.GetMouseButtonDown(0))
             Shoot();
+        /*
+        if (Input.GetMouseButton(0))
+            if (currentWait == 0)
+                Shoot();
+        if (currentWait < waitTime)
+           currentWait += 1 * Time.deltaTime;
 
+        if (currentWait >= waitTime)
+            currentWait = 0;
+        */
 
         // Player movement
         if (Input.GetKey(KeyCode.W))
@@ -59,6 +72,8 @@ public class Player : MonoBehaviour
                 myPlayer.AddForce(0, 1, 0, ForceMode.Impulse);
         }
 
+        healthText.text = "Health: " + health;
+        pointsText.text = "Score: " + points;
 
         if (health <= 0)
             Die();
